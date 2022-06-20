@@ -10,7 +10,15 @@ import javax.persistence.Id;
 @Getter
 @Setter
 public class Member {
+
     @Id
     private Long id;
     private String name;
+
+    public Member() {}
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
