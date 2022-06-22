@@ -217,3 +217,25 @@ List<member> members = query.getResultList();
 - em.detach(entity) - 특정엔티티만 준영속 상태로 변환
 - em.clear() - 영속성 컨텍스트를 완전히 초기화
 - em.close() - 영속성 컨텍스트를 종료
+
+## 엔티티 매핑소개
+- 객체와 테이블 매핑: @Entity, @Table
+- 필드와 컬럼 매핑: @Column
+- 기본 키 매핑: @Id
+- 연관 관계 매핑: @ManyToOne, @JoinColumn
+
+### @Entity
+- @Entity가 붙은 클래스는 JPA가 관리, 엔티티라 한다.
+- JPA를 사용해서 테이블과 매핑할 클래스는 @Entity 필수
+- 주의
+1. 기본생성자 필수(파라미터가 없는 public 또는 protected 생성자)
+2. final 클래스, enum, interface, inner 클래스 사용 x
+3. 저장할 필드에 final 사용 x
+- 속성: name
+1. JPA에서 사용할 엔티티 이름을 정한다
+2. 기본값: 클래스 이름을 그대로 사용
+3. 같은 클래스 이름이 없으면 가급적 기본값을 사용한다.
+- @Table
+1. 엔티티와 매핑할 테이블을 지정
+
+   
