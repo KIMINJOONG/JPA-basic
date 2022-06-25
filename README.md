@@ -262,3 +262,22 @@ List<member> members = query.getResultList();
 ```
 - DDL생성 기능은 DDL을 자동생할때만 사용되고 JPA의 실행 로직에는 영향을 주지 않는다.
    
+## 요구사항 추가
+1. 회원은 일반회원과 관리자로 구분해야한다
+2. 회원가입일과 수정일이 있어야한다.
+3. 회원을 설명할수있는 필드가 있어야한다. 이 필드는 길이 제한이 없다.
+
+## 매핑 어노테이션 정리
+- @Column : 컬럼 매핑
+- @Temporal: 날짜 타입 매핑
+- @Enumerated: enum 타입 매핑
+- @Lob: BLOB, CLOB 매핑
+- @Transient: 특정 필드를 컬럼에 매핑하지않음 (최신 버전 쓰는 사람은 LocalDate, LocalDateTime 사용)
+
+### @Enumerated 사용시 주의
+- ORDINAL 절대 사용 X STRING을 권장
+- EnumType.ORDINAL: enum 순서를 데이터 베이스에 저장
+- EnumType.STRING: enum 이름을 데이터베이스에 저장
+
+
+
