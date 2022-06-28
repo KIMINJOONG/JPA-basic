@@ -1,5 +1,8 @@
 package jpabasic.jpashop;
 
+import jpabasic.ex1hellojpa.Member;
+import jpabasic.ex1hellojpa.Team;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -14,6 +17,21 @@ public class JpaMain {
         tx.begin();
 
         try {
+
+            // 팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            // 회원 저장
+           Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team); // 단방향 연관관계 설정, 참조 저장
+            em.persist(member);
+
+            // 조회
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
             tx.commit();
         } catch(Exception e) {
             tx.rollback();
