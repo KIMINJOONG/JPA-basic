@@ -27,8 +27,9 @@ public class Ex1HelloJpaApplication {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
             em.persist(member);
+
+            team.addMember(member); // 연관관계 편의 메소드
 
             em.flush();
             em.clear();
