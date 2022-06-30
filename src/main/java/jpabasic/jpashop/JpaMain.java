@@ -2,6 +2,8 @@ package jpabasic.jpashop;
 
 import jpabasic.ex1hellojpa.Member;
 import jpabasic.ex1hellojpa.Team;
+import jpabasic.jpashop.domain.Order;
+import jpabasic.jpashop.domain.OrderItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,20 +20,13 @@ public class JpaMain {
 
         try {
 
-            // 팀 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+            Order order = new Order();
+            em.persist(order);
+//            order.addOrderItem(new OrderItem());
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
 
-            // 회원 저장
-           Member member = new Member();
-            member.setUsername("member1");
-            member.setTeam(team); // 단방향 연관관계 설정, 참조 저장
-            em.persist(member);
-
-            // 조회
-            Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
+            em.persist(orderItem);
             tx.commit();
         } catch(Exception e) {
             tx.rollback();
