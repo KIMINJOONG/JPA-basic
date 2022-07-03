@@ -21,21 +21,20 @@ public class Ex1HelloJpaApplication {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("member1");
+
             em.persist(member);
 
-            team.addMember(member); // 연관관계 편의 메소드
+            Team team = new Team();
+            team.setName("teamA");
+            team.getMembers().add(member);
+
+            em.persist(team);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
 
             tx.commit();
         } catch(Exception e) {
