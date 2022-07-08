@@ -24,9 +24,9 @@ public class OrderItem {
 //    @Column(name = "ITEM_ID")
 //    private Long itemId;
 
-    @ManyToOne
-    @JoinColumn(name = "ITEM_ID")
-    private Item item;
+//    @ManyToOne
+//    @JoinColumn(name = "ITEM_ID")
+//    private Item item;
 
     private int orderPrice;
     private int count;
