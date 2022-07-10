@@ -1,8 +1,8 @@
-package jpabasic.ex1hellojpa;
-
-import javax.persistence.Entity;
-
-@Entity
-public class Album extends Item{
-    private String artist;
-}
+//package jpabasic.ex1hellojpa;
+//
+//import javax.persistence.Entity;
+//
+//@Entity
+//public class Album extends Item{
+//    private String artist;
+//}

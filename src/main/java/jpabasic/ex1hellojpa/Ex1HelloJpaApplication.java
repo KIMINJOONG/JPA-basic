@@ -22,11 +22,11 @@ public class Ex1HelloJpaApplication {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("user");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
-            em.persist(member);
+//            Member member = new Member();
+//            member.setUsername("user");
+//            member.setCreatedBy("kim");
+//            member.setCreatedDate(LocalDateTime.now());
+//            em.persist(member);
 
             tx.commit();
         } catch(Exception e) {

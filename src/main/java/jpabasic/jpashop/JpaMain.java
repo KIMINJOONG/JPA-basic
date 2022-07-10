@@ -1,6 +1,7 @@
 package jpabasic.jpashop;
 
 import jpabasic.ex1hellojpa.Team;
+import jpabasic.jpashop.domain.Book;
 import jpabasic.jpashop.domain.Order;
 import jpabasic.jpashop.domain.OrderItem;
 
@@ -18,6 +19,12 @@ public class JpaMain {
         tx.begin();
 
         try {
+
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+
+            em.persist(book);
 
         } catch(Exception e) {
             tx.rollback();
