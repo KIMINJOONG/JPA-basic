@@ -1,6 +1,6 @@
 package jpabasic.ex1hellojpa;
 
-import jpabasic.jpashop.domain.Member;
+//import jpabasic.jpashop.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
