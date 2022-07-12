@@ -22,13 +22,24 @@ public class Ex1HelloJpaApplication {
         tx.begin();
 
         try {
-//            Member member = new Member();
-//            member.setUsername("user");
-//            member.setCreatedBy("kim");
-//            member.setCreatedDate(LocalDateTime.now());
-//            em.persist(member);
+            Member member = new Member();
+            member.setUsername("hello");
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+
+            Member refMember = em.getReference(Member.class, member.getId());
+            System.out.println("m1.getClass() :" + refMember.getClass());
+
+            Member findMember = em.find(Member.class, member.getId());
+            System.out.println("reference.getClass() :" + findMember.getClass());
+
+            System.out.println("a == a : " + (refMember == findMember));
 
             tx.commit();
+
         } catch(Exception e) {
             tx.rollback();
         } finally {
@@ -36,6 +47,18 @@ public class Ex1HelloJpaApplication {
 
         }
         emf.close();
+    }
+
+    private static void printMember(Member member) {
+        String username = member.getUsername();
+        System.out.println("username :" + username);
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username :" + username);
+        Team team = member.getTeam();
+        System.out.println("username :" + team.getName());
     }
 
 }

@@ -21,9 +21,9 @@ public class Order extends BaseEntity {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
+//    private Member member;
 
     @OneToOne
     @JoinColumn(name = "DELIVERY_ID")

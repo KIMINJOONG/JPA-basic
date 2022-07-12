@@ -761,3 +761,80 @@ NAME
 # 요구사항 추가
 - 상품의 종류는 음반, 도서, 영화가 있고 이후 더 확장될수도 있다.
 - 모든 데이터는 등록일과 수정일이 필수이다. 
+
+---
+
+# Member를 조회할때 Team도 함께 조회해야 할까?
+```
+public static void main(String[] args) {
+
+//        SpringApplication.run(Ex1HelloJpaApplication.class, args);
+        EntityManagerFactory emf =  Persistence.createEntityManagerFactory("hello");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx =  em.getTransaction();
+        tx.begin();
+
+        try {
+            Member member = em.find(Member.class, 1L);
+//            printMemberAndTeam(member);
+            printMember(member);
+            tx.commit();
+
+        } catch(Exception e) {
+            tx.rollback();
+        } finally {
+            em.close();
+
+        }
+        emf.close();
+    }
+
+    private static void printMember(Member member) {
+        String username = member.getUsername();
+        System.out.println("username :" + username);
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username :" + username);
+        Team team = member.getTeam();
+        System.out.println("username :" + team.getName());
+    }
+```
+- member데이터만 가져와서 써도 되는데 team까지 같이 가져오면 비효율
+
+# 해결방법(프록시 기초)
+- em.find() vs em.getReference()
+- em.find(): 데이터베이스를 통해서 실제 엔티티 객체 조회
+- em.getReference(): 데이터베이스 조회를 미루는 가짜(프록시) 엔티티 객체 조회
+
+# 프록시 특징
+- 실제 클래스를 상속받아서 만들어짐
+- 실제 클래스와 겉 모양이 같다.
+- 사용하는 입장에서 진짜 객체인지 프록시 객체인지 구분않고 사용하면됨(이론상)
+- 프록시 객체는 실제 객체의 참조(target)를 보관
+- 프록시 객체를 호출하면 프록시 객체는 실제 객체의 메소드 호출
+
+```
+// 프록시 객체
+Member findMember = em.getReference(Member.class, member.getId());
+
+// username을 실제로 가져다쓰는 시점에 내부적으로 영속성 컨텍스트에 요청
+// 레퍼런스가 실제 값을 가지면서 멤버가 값을 알게된다.
+System.out.println("findMember.getUsername() :" + findMember.getUsername());
+```
+
+- 프록시 객체는 처음 사용 할 때 한번만 초기화
+- 프록시 객체를 초기화 할 때, 프록시 객체가 실제 엔티티로 바뀌는것은 아님, 초기화되면 프록시 객체를 통해서 실제 엔티티에 접근가능
+- 프록시 객체는 원본 엔티티를 상속받음, 따라서 타입 체크시 주의해야함 (== 비교 실패, 대신 instance of 사용)
+- 영속성 컨텍스트에 찾는 엔티티가 이미 있으면 em.getReference()를 호출해도 실제 엔티티 반환
+- 영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때, 프록시를 초기화하면 문제 발생
+  (하이버네이트는 org.hibernate.LazyInitializationException예외를 터뜨림)
+
+# 프록시 확인
+- 프록시 인스턴스의 초기화 여부 확인
+1. PersistenceUnitUtil.isLoaded(Object entity)
+- 프록시 클래스 확인 방법
+1. entity.getClass().getName() 출력
+- 프록시 강제 초기화
+1. org.hibernate.Hibernate.initialaize(entity);
