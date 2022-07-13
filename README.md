@@ -857,3 +857,50 @@ System.out.println("findMember.getUsername() :" + findMember.getUsername());
 - 실무에서 즉시로딩을 사용하지마라!
 - JPQL fetch조인이나, 엔티티 그래프 기능을 사용해라!
 - 즉시로딩은 상상하지 못한 쿼리가 나간다.
+
+---
+
+# 영속성 전이: CASECADE
+- 특정 엔티티를 영속 상태로 만들 때 연관된 엔티티도 함께 영속 상태로 만들고싶을때
+- 예: 부모 엔티티를 저장 할 때 자식 엔티티도 함께 저장
+
+# 영속성 전이: 저장
+```
+@OneToMany(mappedBy="parent", casecade=CasecadeType.PERSIST)
+```
+
+# 영속성 전이: CASECADE 주의!
+- 영속성 전이는 연관관계를 매핑하는 것과 아무 관련이 없음
+- 엔티티를 영속화할때 연관된 엔티티도 함께 영속화하는 편리함을 제공할뿐
+
+# 고아 객체
+- 고아 객체 제거: 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제
+- orphanRemoval = true
+```
+Parent findParent = em.find(Parent.class, parent.getId());
+findParent.getChildList().remove(0);
+
+실행시 Delete 쿼리가 나감
+
+delete jpabasic.ex1hellojpa.Child */ delete 
+        from
+            Child 
+        where
+            id=?
+```
+# 고아 객체 주의
+- 참조가 제거된 엔티티는 다른곳에 참조하지 않는 고아 객체로 보고 삭제하는 기능
+- 참조하는곳이 하나일때 사용해야함
+- 특정 엔티티가 개인 소유 할 때 사용
+- @OneToOne, @OneToMany만 가능
+- 참고: 개념적으로 부모를 제거하면 자식은 고아가 된다. 따라서 고아 객체 제거 기능을 활성화 하면
+부모를 제거 할때 자식도 함께 제거 된다. 이것은 CasecadeType.REMOVE처럼 동작한다.
+  
+# 영속성 전이 + 고아 객체, 생명주기
+- CasecadeType.ALL + orphanRemoval = true
+- 스스로 생명주기를 관리하는 엔티티는 em.persist()로 영속화, em.remove()로 제거
+- 두 옵션을 모두 활성화 하면 부모 엔티티를 통해서 자식의 생명 주기를 관리할 수 있음
+- 도메인 주도 설계(DDD)의 Aggregate Root개념을 구현할때 유용
+
+
+
