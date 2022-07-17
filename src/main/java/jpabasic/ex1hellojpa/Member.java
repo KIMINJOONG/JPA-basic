@@ -21,13 +21,21 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
-    private Team team;
 
-    @ManyToMany
-    @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();
+
+    @Embedded
+    private Period workPeriod;
+
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name = "address", column =@Column(name = "WORK_STREET")),
+            @AttributeOverride(name = "zipcode", column =@Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
 
 
