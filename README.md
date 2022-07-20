@@ -1015,5 +1015,28 @@ b.setCity("New")
 
 # 불변이라는 작은 제약으로 부작용이라는 큰 재앙을 막을 수 있다.
 
+---
 
+# 값 타입의 비교
+- 값 타입: 인스턴스가 달라도 그안에 값이 같으면 같은것으로 봐야함
+```
+int a = 10;
+int b = 10;
+
+System.out.println("a == b : " + a == b);
+//true
+
+Adress address1 = new Address("서울시");
+Adress address2 = new Address("서울시");
+
+System.out.println("address1 == address2 : " + address1 == address2);
+// false
+```
+
+
+# 값 타입 비교
+- 동일성(identity) 비교: 인스턴스의 참조 값을 비교, == 사용
+- 동등성(equivalence) 비교: 인스턴스의 값을 비교, equals()
+- 값 타입은 a.equals(b)를 사용해서 동등성 비교를 해야 함
+- 값 타입의 equals() 메소드를 적절하게 재정의(주로 모든 필드 사용)
 
