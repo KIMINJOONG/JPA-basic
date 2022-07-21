@@ -22,14 +22,18 @@ public class Ex1HelloJpaApplication {
         tx.begin();
 
         try {
-            Address address = new Address("city", "street", "zipcode");
             Member member =  new Member();
             member.setUsername("member1");
-            member.setHomeAddress(address);
-            em.persist(member);
+            member.setHomeAddress(new Address("homeCity", "street", "zipcode"));
 
-            Address newAddress = new Address("newCity", address.getAddress(), address.getZipcode());
-            member.setHomeAddress(newAddress);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+
+            member.getAddressHistory().add(new AddressEntity("old1", "street", "zipcode"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street", "zipcode"));
+
+            em.persist(member);
 
             tx.commit();
 

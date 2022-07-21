@@ -11,15 +11,15 @@ import java.util.Objects;
 @Setter
 public class Address {
     private String city;
-    private String address;
+    private String street;
     private String zipcode;
 
     public Address() {
     }
 
-    public Address(String city, String address, String zipcode) {
+    public Address(String city, String street, String zipcode) {
         this.city = city;
-        this.address = address;
+        this.street = street;
         this.zipcode = zipcode;
     }
 
@@ -28,11 +28,11 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address1 = (Address) o;
-        return Objects.equals(city, address1.city) && Objects.equals(address, address1.address) && Objects.equals(zipcode, address1.zipcode);
+        return Objects.equals(city, address1.city) && Objects.equals(street, address1.street) && Objects.equals(zipcode, address1.zipcode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(city, address, zipcode);
+        return Objects.hash(city, street, zipcode);
     }
 }
